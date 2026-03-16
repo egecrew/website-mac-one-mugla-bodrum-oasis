@@ -6,9 +6,11 @@ function App() {
     name: '',
     email: '',
     phone: '',
+    subject: '',
     message: ''
   })
   const [submitted, setSubmitted] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -19,8 +21,13 @@ function App() {
     e.preventDefault()
     console.log('Form submitted:', formData)
     setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
-    setFormData({ name: '', email: '', phone: '', message: '' })
+    setTimeout(() => setSubmitted(false), 4000)
+    setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
+  }
+
+  const scrollToSection = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    setMenuOpen(false)
   }
 
   return (
@@ -28,25 +35,56 @@ function App() {
       {/* Header/Navigation */}
       <header className="header">
         <div className="container">
-          <div className="logo">Işletmeniz</div>
-          <nav className="nav">
-            <a href="#about">Hakkında</a>
-            <a href="#services">Hizmetler</a>
-            <a href="#gallery">Galeri</a>
-            <a href="#contact">İletişim</a>
+          <div className="logo">🏢 Işletmeniz</div>
+          
+          <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+            ☰
+          </button>
+
+          <nav className={`nav ${menuOpen ? 'open' : ''}`}>
+            <a href="#about" onClick={() => scrollToSection('about')}>Hakkında</a>
+            <a href="#services" onClick={() => scrollToSection('services')}>Hizmetler</a>
+            <a href="#gallery" onClick={() => scrollToSection('gallery')}>Galeri</a>
+            <a href="#contact" onClick={() => scrollToSection('contact')}>İletişim</a>
           </nav>
         </div>
       </header>
 
       {/* Hero Section */}
       <section className="hero">
-        <div className="container">
-          <div className="hero-content">
+        <div className="hero-bg"></div>
+        <div className="container hero-content">
+          <div className="hero-text">
             <h1>Hoşgeldiniz</h1>
-            <p>Profesyonel hizmetlerimiz ile en iyi deneyimi yaşayın</p>
-            <button className="cta-button" onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}>
-              İletişim Kurun
-            </button>
+            <p>Profesyonel hizmetlerimiz ile işletmenizi bir üst seviyeye çıkarın</p>
+            <div className="hero-buttons">
+              <button 
+                className="cta-button primary" 
+                onClick={() => scrollToSection('contact')}
+              >
+                İletişim Kurun
+              </button>
+              <button 
+                className="cta-button secondary"
+                onClick={() => scrollToSection('services')}
+              >
+                Hizmetler →
+              </button>
+            </div>
+          </div>
+          <div className="hero-stats">
+            <div className="stat">
+              <div className="stat-number">500+</div>
+              <div className="stat-label">Müşteri</div>
+            </div>
+            <div className="stat">
+              <div className="stat-number">15+</div>
+              <div className="stat-label">Yıl Tecrübe</div>
+            </div>
+            <div className="stat">
+              <div className="stat-number">99%</div>
+              <div className="stat-label">Memnuniyet</div>
+            </div>
           </div>
         </div>
       </section>
@@ -54,33 +92,78 @@ function App() {
       {/* About Section */}
       <section id="about" className="about">
         <div className="container">
-          <h2>Hakkımızda</h2>
-          <p>
-            Yıllardır müşterilerimize en kaliteli hizmetleri sunmaktan gurur duyuyoruz. 
-            Profesyonel ekibimiz ve modern hizmetlerimiz ile işletmeniz için en iyi seçimiz.
-          </p>
+          <div className="section-header">
+            <h2>Hakkımızda</h2>
+            <div className="divider"></div>
+          </div>
+          <div className="about-content">
+            <div className="about-text">
+              <p>
+                Yıllardır endüstride lider konumdayız. Müşteri memnuniyeti ve kalite 
+                bizim en önemli değerlerimizdir. Profesyonel ekibimiz her zaman 
+                en iyi hizmeti sunmak için hazırdır.
+              </p>
+              <ul className="about-list">
+                <li>✓ Deneyimli profesyonel ekip</li>
+                <li>✓ Son teknoloji ve ekipman</li>
+                <li>✓ Müşteri odaklı yaklaşım</li>
+                <li>✓ Gücendirilmiş süreler</li>
+              </ul>
+            </div>
+            <div className="about-visual">
+              <div className="about-box">
+                <div className="about-number">15+</div>
+                <p>Yıl Deneyim</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Services Section */}
       <section id="services" className="services">
         <div className="container">
-          <h2>Hizmetlerimiz</h2>
+          <div className="section-header">
+            <h2>Hizmetlerimiz</h2>
+            <div className="divider"></div>
+            <p className="subtitle">En iyi kalitede hizmetler sunuyoruz</p>
+          </div>
+          
           <div className="services-grid">
             <div className="service-card">
-              <div className="service-icon">🎯</div>
-              <h3>Hizmet 1</h3>
-              <p>Açıklamalar ve detaylar</p>
+              <div className="service-icon">⚡</div>
+              <h3>Hızlı Hizmet</h3>
+              <p>Zamanında ve verimli hizmet alımı. İşletmenizin ihtiyaçlarına hızlı yanıt.</p>
             </div>
+            
             <div className="service-card">
-              <div className="service-icon">⭐</div>
-              <h3>Hizmet 2</h3>
-              <p>Açıklamalar ve detaylar</p>
+              <div className="service-icon">🎯</div>
+              <h3>Hedefli Çözümler</h3>
+              <p>Sizin ihtiyaçlarınıza özel tasarlanan çözümler. Tam uyum ve verimlilik.</p>
             </div>
+            
             <div className="service-card">
               <div className="service-icon">💎</div>
-              <h3>Hizmet 3</h3>
-              <p>Açıklamalar ve detaylar</p>
+              <h3>Premium Kalite</h3>
+              <p>En yüksek kalite standartlarında hizmet. Her detayda mükemmellik.</p>
+            </div>
+
+            <div className="service-card">
+              <div className="service-icon">🤝</div>
+              <h3>Güvenilir Ortaklık</h3>
+              <p>Uzun vadeli, güvenilir iş ortaklığı. Daima yanınızdayız.</p>
+            </div>
+
+            <div className="service-card">
+              <div className="service-icon">📱</div>
+              <h3>24/7 Destek</h3>
+              <p>Gün içi her saatinde destek ve danışmanlık. Sorunlar hemen çözülür.</p>
+            </div>
+
+            <div className="service-card">
+              <div className="service-icon">🚀</div>
+              <h3>İşletme Büyütme</h3>
+              <p>Işletmenizin büyümesine katkı sağlayacak stratejiler ve çözümler.</p>
             </div>
           </div>
         </div>
@@ -89,20 +172,19 @@ function App() {
       {/* Gallery Section */}
       <section id="gallery" className="gallery">
         <div className="container">
-          <h2>Galeri</h2>
+          <div className="section-header">
+            <h2>Çalışmalarımız</h2>
+            <div className="divider"></div>
+          </div>
+          
           <div className="gallery-grid">
-            <div className="gallery-item">
-              <div className="gallery-placeholder">Fotoğraf 1</div>
-            </div>
-            <div className="gallery-item">
-              <div className="gallery-placeholder">Fotoğraf 2</div>
-            </div>
-            <div className="gallery-item">
-              <div className="gallery-placeholder">Fotoğraf 3</div>
-            </div>
-            <div className="gallery-item">
-              <div className="gallery-placeholder">Fotoğraf 4</div>
-            </div>
+            {[1, 2, 3, 4].map((num) => (
+              <div key={num} className="gallery-item">
+                <div className="gallery-placeholder">
+                  <span>Proje {num}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -110,16 +192,22 @@ function App() {
       {/* Contact Section */}
       <section id="contact" className="contact">
         <div className="container">
-          <h2>İletişim</h2>
+          <div className="section-header">
+            <h2>İletişim</h2>
+            <div className="divider"></div>
+            <p className="subtitle">Bize yazın, en kısa sürede yanıt vereceğiz</p>
+          </div>
+          
           <div className="contact-content">
             <div className="contact-info">
               <div className="info-item">
                 <span className="icon">📞</span>
                 <div>
                   <h3>Telefon</h3>
-                  <p>+90 (252) XXX XXXX</p>
+                  <p>+90 (252) XXX-XXXX</p>
                 </div>
               </div>
+              
               <div className="info-item">
                 <span className="icon">📧</span>
                 <div>
@@ -127,11 +215,20 @@ function App() {
                   <p>info@isletme.com</p>
                 </div>
               </div>
+              
               <div className="info-item">
                 <span className="icon">📍</span>
                 <div>
                   <h3>Adres</h3>
-                  <p>Bodrum, Muğla</p>
+                  <p>Bodrum, Muğla, Türkiye</p>
+                </div>
+              </div>
+
+              <div className="info-item">
+                <span className="icon">🕐</span>
+                <div>
+                  <h3>Çalışma Saatleri</h3>
+                  <p>Pazartesi-Cuma: 09:00-18:00</p>
                 </div>
               </div>
             </div>
@@ -148,7 +245,7 @@ function App() {
               <input
                 type="email"
                 name="email"
-                placeholder="Email"
+                placeholder="Email Adresiniz"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -156,8 +253,15 @@ function App() {
               <input
                 type="tel"
                 name="phone"
-                placeholder="Telefon"
+                placeholder="Telefon Numarası"
                 value={formData.phone}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                name="subject"
+                placeholder="Konu"
+                value={formData.subject}
                 onChange={handleChange}
               />
               <textarea
@@ -166,9 +270,14 @@ function App() {
                 value={formData.message}
                 onChange={handleChange}
                 rows="5"
+                required
               ></textarea>
               <button type="submit" className="submit-button">Gönder</button>
-              {submitted && <p className="success-message">✓ Mesajınız alındı!</p>}
+              {submitted && (
+                <div className="success-message">
+                  ✓ Mesajınız başarıyla gönderildi! En kısa sürede döneceğiz.
+                </div>
+              )}
             </form>
           </div>
         </div>
@@ -177,8 +286,28 @@ function App() {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p>&copy; 2026 Işletmeniz. Tüm hakları saklıdır.</p>
-          <p className="footer-credit">Vite + React ile oluşturuldu</p>
+          <div className="footer-content">
+            <div className="footer-section">
+              <h4>Hakkımızda</h4>
+              <p>Profesyonel hizmetler sunmakta uzmanlaşmış bir kuruluş.</p>
+            </div>
+            <div className="footer-section">
+              <h4>Hızlı Linkler</h4>
+              <ul>
+                <li><a href="#about">Hakkımızda</a></li>
+                <li><a href="#services">Hizmetler</a></li>
+                <li><a href="#contact">İletişim</a></li>
+              </ul>
+            </div>
+            <div className="footer-section">
+              <h4>İletişim</h4>
+              <p>+90 (252) XXX-XXXX<br/>info@isletme.com</p>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>&copy; 2026 Işletmeniz. Tüm hakları saklıdır.</p>
+            <p className="footer-credit">Vite + React ile oluşturuldu</p>
+          </div>
         </div>
       </footer>
     </div>
